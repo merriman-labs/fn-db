@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import Collection from './Collection';
+import { CollectionItem } from '.';
 
 class Database {
   _dbPath: string;
@@ -18,9 +19,9 @@ class Database {
    * 
    * @param {string} name 
    */
-  collection(name: string) {
+  collection<T extends CollectionItem>(name: string) {
     const collectionPath = path.join(this._dbPath, `${name}.json`);
-    return new Collection(collectionPath);
+    return new Collection<T>(collectionPath);
   }
 
   _ensureStorage() {
