@@ -32,14 +32,13 @@ class Collection<T extends CollectionItem> {
   }
 
   /**
-   * @returns {Promise<Array<T>>}
    */
   async read() {
     return this._get();
   }
 
-  async find(id: any) {
-    return (await this._get()).find((item: { _id: any }) => item._id === id);
+  async find(id: string) {
+    return (await this._get()).find(item => item._id === id);
   }
 
   /**
@@ -47,10 +46,10 @@ class Collection<T extends CollectionItem> {
    * @param {string} id
    * @param {T} obj
    */
-  async update(id: any, obj: any) {
+  async update(id: string, obj: T) {
     const db = await this._get();
 
-    const newDb = db.map((val: { _id: any }) => (val._id === id ? obj : val));
+    const newDb = db.map(val => (val._id === id ? obj : val));
     return this._save(newDb);
   }
 
@@ -62,11 +61,9 @@ class Collection<T extends CollectionItem> {
     // read the db
     const db = await this._get();
 
-    const dbWithoutMatchingObject = db.filter(
-      (weather: { _id: any }) => weather._id !== id
-    );
+    const deleted = db.filter(item => item._id !== id);
 
-    return this._save(dbWithoutMatchingObject);
+    return this._save(deleted);
   }
 
   /**
