@@ -7,7 +7,7 @@ import { CollectionItem } from "./CollectionItem";
  * @template T
  */
 class Collection<T extends CollectionItem> {
-  _collectionPath: string;
+  private _collectionPath: string;
 
   constructor(path: string) {
     this._collectionPath = path;
