@@ -46,12 +46,11 @@ class Collection<T extends CollectionItem> {
   /**
    * Returns every entry in the collection.
    */
-  public async read(): Promise<Array<T>>
-  public async read(predicate: ((item: T) => boolean)): Promise<Array<T>>
-  public async read(predicate?: ((item: T) => boolean)): Promise<Array<T>> {
-    if(typeof predicate === 'undefined') return this._get();
+  public async read(): Promise<Array<T>>;
+  public async read(predicate: (item: T) => boolean): Promise<Array<T>>;
+  public async read(predicate?: (item: T) => boolean): Promise<Array<T>> {
+    if (typeof predicate === "undefined") return this._get();
     return (await this._get()).filter(predicate);
-    
   }
 
   /**
@@ -84,7 +83,9 @@ class Collection<T extends CollectionItem> {
   public async delete(predicate: (item: T) => boolean): Promise<void>;
   public async delete(id: string | ((item: T) => boolean)) {
     const predicate =
-      typeof id === "function" ? R.pipe(id, R.not) : (item: T) => item._id !== id;
+      typeof id === "function"
+        ? R.pipe(id, R.not)
+        : (item: T) => item._id !== id;
 
     const db = await this._get();
 
