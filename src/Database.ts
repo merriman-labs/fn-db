@@ -1,14 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const os = require('os')
-const Collection = require('./collection');
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+import Collection from './Collection';
 
 class Database {
+  _dbPath: string;
   /**
    *
    * @param {string} name
    */
-  constructor(name) {
+  constructor(name: string) {
     this._dbPath = path.join(os.userInfo().homedir, `/.${name}/`);
     this._ensureStorage();
   }
@@ -17,7 +18,7 @@ class Database {
    * 
    * @param {string} name 
    */
-  collection(name) {
+  collection(name: string) {
     const collectionPath = path.join(this._dbPath, `${name}.json`);
     return new Collection(collectionPath);
   }
@@ -27,4 +28,4 @@ class Database {
   }
 }
 
-module.exports = Database;
+export default Database;
